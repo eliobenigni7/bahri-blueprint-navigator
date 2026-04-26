@@ -1,32 +1,47 @@
-# State of the Art: 2.5D/3D Interactive Visualizations for Next.js
+# State of the Art: 2.5D / 3D Interactive Visualizations for Next.js
 
 ## Core Library Recommendations
 
-### 1. React Three Fiber (R3F) - Recommended
-- **Nature:** A React renderer for Three.js.
-- **Why:** It is the most mature ecosystem for Next.js. It allows treating 3D objects as declarative React components.
-- **Suitability for Bahri:** Perfect. You can use `drei` (a helper library) for complex controls, environment maps (sea/sky), and smooth transitions.
-- **2.5D Approach:** Use an Orthographic Camera or a fixed-angle Perspective Camera to achieve the 2.5D "isometric" look.
+| Library | Nature | Strengths | Suitability for Bahri |
+| --- | --- | --- | --- |
+| **React Three Fiber (R3F)** | React renderer for Three.js | Mature ecosystem, declarative 3D components, seamless React integration | **Recommended** — ideal for the ship, routes, and cinematic navigation |
+| **Babylon.js** | Full-featured 3D engine | Strong lighting and scene tooling | Good option, but likely overkill unless the ship model needs CAD-like fidelity |
+| **PixiJS** | 2D WebGL engine | Excellent performance for 2D layers | Great for a “fake 3D” illustrated map, but less aligned with a true 3D experience |
 
-### 2. Babylon.js
-- **Nature:** Full-featured 3D engine.
-- **Why:** Better built-in tools for professional lighting and huge scenes.
-- **Suitability:** High, but overkill unless the ship model needs extreme fidelity (CAD-like). Integration with React is less "native" than R3F.
+## Recommendation
 
-### 3. PixiJS
-- **Nature:** 2D WebGL engine.
-- **Why:** Unbeatable performance for 2D layers.
-- **Suitability:** Excellent for 2.5D "Fake 3D" (sprites with depth sorting). If the vision is more "illustrated map" than "3D world", PixiJS is faster and easier.
+For Bahri, the strongest choice is **React Three Fiber + Three.js**. It gives the best balance between:
 
-## Architecture Pattern for "Narrative Map"
-- **The Camera-Driven Narrative:** Instead of traditional navigation, the experience is a "Guided Tour". Users click a BU $ightarrow$ Camera lerps (linearly interpolates) to a specific 3D coordinate $ightarrow$ UI panel slides in.
-- **State Management:** Use **Zustand**. It's lightweight and handles the global state (Current BU, Ship Position, Zoom Level) without the overhead of Redux.
-- **Animation:** **GSAP (GreenSock)** is the standard for high-end cinematic movements and SVG/Canvas animations.
+- React-friendly architecture
+- 3D rendering flexibility
+- Smooth transition and animation workflows
+- Extensibility through `@react-three/drei`
+
+If the final experience becomes more of an illustrated navigation map than a real 3D scene, PixiJS can be considered as a lighter alternative.
+
+## Architecture Pattern for a Narrative Map
+
+- **Camera-driven narrative:** Users click a BU → the camera lerps to a specific 3D coordinate → a UI panel slides in.
+- **State management:** Use **Zustand** for current BU, ship position, zoom level, and interaction state.
+- **Animation:** Use **GSAP (GreenSock)** for cinematic motion and SVG / canvas transitions.
 
 ## Technical Stack Suggestion
-- **Framework:** Next.js (App Router)
-- **3D Engine:** React Three Fiber + Three.js
-- **Helpers:** @react-three/drei (for OrbitControls, Html anchors)
-- **Animation:** GSAP
-- **State:** Zustand
-- **Deployment:** Vercel (for seamless Next.js integration)
+
+| Layer | Suggested Technology |
+| --- | --- |
+| **Framework** | Next.js (App Router) |
+| **3D engine** | React Three Fiber + Three.js |
+| **Helpers** | `@react-three/drei` (OrbitControls, Html anchors, scene helpers) |
+| **Animation** | GSAP |
+| **State** | Zustand |
+| **Deployment** | Vercel |
+
+## Practical Conclusion
+
+**Best-fit stack for Bahri Blueprint:**
+
+- Next.js for application structure
+- R3F for the interactive 2.5D/3D scene
+- GSAP for movement and transitions
+- Zustand for global interaction state
+- Vercel for deployment
