@@ -4,6 +4,33 @@
 
 The goal is to transform the static Enterprise Architecture blueprint for Bahri into a 2.5D interactive nautical experience. Instead of slides, stakeholders *navigate* the organization’s state using a ship as the central anchor and routes as business unit (BU) pathways.
 
+## Design System Alignment with Bahri
+
+The blueprint experience should feel native to Bahri’s existing corporate language: clean, maritime, executive, and restrained.
+
+### Visual DNA Observed on the Bahri Site
+
+- **Primary navy:** `#003C71`
+- **Brand accent orange:** `#FF681D`
+- **Neutral base:** white backgrounds with light gray surfaces and dark gray text
+- **Secondary emphasis:** red for warnings / critical states, used sparingly
+- **Overall style:** corporate, spacious, card-based, and minimal
+- **Typography on the site:** Montserrat for Latin content and Tajawal for Arabic content
+
+### Typography for the Blueprint
+
+- **Primary typeface:** `Century Gothic` for titles, labels, and key narrative text
+- **Fallback stack:** `Century Gothic, Montserrat, Arial, sans-serif`
+- **Arabic support if needed:** `Tajawal` for any Arabic labels or localized views
+
+### Design Principles
+
+- Keep the layout **executive-friendly** and easy to scan
+- Prefer **thin lines, subtle shadows, and clean separators**
+- Use **orange only as an accent**, not as a dominant background color
+- Let **navy anchor the interface**; reserve white space for clarity
+- Avoid overly playful effects; the nautical metaphor should remain **professional and precise**
+
 ## Core Metaphor Mapping
 
 | Business Element | Visual Metaphor | Interaction Type |
