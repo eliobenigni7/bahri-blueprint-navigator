@@ -156,6 +156,7 @@ export default function BahriBlueprintClient() {
   const [selectedId, setSelectedId] = useState('oil');
   const [stepIndex, setStepIndex] = useState(0);
   const [hoverNode, setHoverNode] = useState(null);
+  const [introDone, setIntroDone] = useState(false);
 
   const selected = useMemo(() => domains.find((item) => item.id === selectedId) ?? domains[0], [selectedId]);
   const currentStep = steps[stepIndex];
@@ -163,7 +164,17 @@ export default function BahriBlueprintClient() {
   return (
     <div className="app-shell">
       <div className="frame">
-        <header className="topbar">
+        {/* Intro Overlay */}
+        {!introDone && (
+          <div className="intro-overlay">
+            <div className="intro-badge">BAHRI</div>
+            <div className="intro-title">Blueprint</div>
+            <div className="intro-sub">Cinematic Operating Journey</div>
+            <div className="intro-line" />
+          </div>
+        )}
+
+        <header className="topbar" style={{ opacity: introDone ? 1 : 0, transition: 'opacity 0.6s ease' }}>
           <div className="brand-block">
             <div className="brand-kicker">Bahri</div>
             <div className="brand-title">Blueprint</div>
@@ -188,14 +199,20 @@ export default function BahriBlueprintClient() {
           </nav>
         </header>
 
-        <div className="hero-copy">
+        <div className="hero-copy" style={{ opacity: introDone ? 1 : 0, transition: 'opacity 0.6s ease 0.3s' }}>
           <div className="hero-title">{currentStep.label}</div>
           <div className="hero-subtitle">{currentStep.cue}</div>
         </div>
 
-        <BahriThreeScene domains={domains} selectedId={selectedId} onSelect={setSelectedId} onHoverNode={setHoverNode} />
+        <BahriThreeScene
+          domains={domains}
+          selectedId={selectedId}
+          onSelect={setSelectedId}
+          onHoverNode={setHoverNode}
+          onIntroComplete={() => setIntroDone(true)}
+        />
 
-        <section className="panel left-panel">
+        <section className="panel left-panel" style={{ opacity: introDone ? 1 : 0, transition: 'opacity 0.5s ease 0.4s', pointerEvents: introDone ? 'auto' : 'none' }}>
           <div className="panel-kicker">{selected.label}</div>
           <div className="panel-title-row">
             <h2>{selected.label}</h2>
@@ -229,7 +246,7 @@ export default function BahriBlueprintClient() {
           <div className="footer-note">{selected.cue}</div>
         </section>
 
-        <aside className="panel right-rail">
+        <aside className="panel right-rail" style={{ opacity: introDone ? 1 : 0, transition: 'opacity 0.5s ease 0.5s', pointerEvents: introDone ? 'auto' : 'none' }}>
           <div className="rail-title">Guidance Rail</div>
           {guidance.map((item) => (
             <div className="rail-card" key={item.title}>
@@ -243,7 +260,7 @@ export default function BahriBlueprintClient() {
           </div>
         </aside>
 
-        <section className="scene-labels" aria-hidden="true">
+        <section className="scene-labels" aria-hidden="true" style={{ opacity: introDone ? 1 : 0, transition: 'opacity 0.5s ease 0.6s' }}>
           {domains.map((domain) => (
             <button
               key={domain.id}
@@ -260,7 +277,7 @@ export default function BahriBlueprintClient() {
           ))}
         </section>
 
-        <footer className="bottom-left">
+        <footer className="bottom-left" style={{ opacity: introDone ? 1 : 0, transition: 'opacity 0.5s ease 0.7s', pointerEvents: introDone ? 'auto' : 'none' }}>
           <div className="legend-card">
             <div className="legend-title">Route Health Legend</div>
             <div className="legend-row"><span className="dot stable" />Stable <em>On track</em></div>

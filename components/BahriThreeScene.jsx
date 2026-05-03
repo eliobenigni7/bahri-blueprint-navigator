@@ -396,7 +396,17 @@ function FallbackScene({ domains, selectedId }) {
   );
 }
 
-export default function BahriThreeScene({ domains, selectedId, onSelect, onHoverNode }) {
+const INTRO_DURATION = 4.0;
+const INTRO_START_Z = 160;
+const INTRO_START_Y = 70;
+const NORMAL_Z = 60;
+const NORMAL_Y = 24;
+
+function easeOutCubic(t) {
+  return 1 - Math.pow(1 - t, 3);
+}
+
+export default function BahriThreeScene({ domains, selectedId, onSelect, onHoverNode, onIntroComplete }) {
   const hostRef = useRef(null);
   const onSelectRef = useRef(onSelect);
   const selectedRef = useRef(selectedId);
@@ -469,8 +479,9 @@ export default function BahriThreeScene({ domains, selectedId, onSelect, onHover
 
     const aspect = host.clientWidth / host.clientHeight || 1;
     const camera = new THREE.PerspectiveCamera(30, aspect, 0.1, 420);
-    camera.position.set(0, 24, 60);
-    camera.lookAt(0, 6.5, 0);
+    // Start zoomed out for intro
+    camera.position.set(0, INTRO_START_Y, INTRO_START_Z);
+    camera.lookAt(0, 4, 0);
 
     const ambient = new THREE.AmbientLight('#93b6d5', 1.7);
     const fill = new THREE.DirectionalLight('#fff0d8', 1.4);
@@ -751,9 +762,25 @@ export default function BahriThreeScene({ domains, selectedId, onSelect, onHover
         sceneState.current.haloRing.material.opacity = 0.34 + Math.sin(elapsed * 1.7) * 0.08;
       }
 
-      camera.position.x = THREE.MathUtils.lerp(camera.position.x, pointer.x * 3.2, 0.028);
-      camera.position.z = THREE.MathUtils.lerp(camera.position.z, 60 + pointer.y * 2.2, 0.02);
-      camera.lookAt(pointer.x * 2.3, 6.4, 0);
+      // ── Intro dezoom ──
+      let introDone = false;
+      if (elapsed < INTRO_DURATION) {
+        const t = easeOutCubic(elapsed / INTRO_DURATION);
+        camera.position.y = INTRO_START_Y + (NORMAL_Y - INTRO_START_Y) * t;
+        camera.position.z = INTRO_START_Z + (NORMAL_Z - INTRO_START_Z) * t;
+        camera.position.x = 0;
+        camera.lookAt(0, 2 + t * 4.4, 0);
+      } else if (!sceneState.current?._introFired) {
+        introDone = true;
+        if (sceneState.current) sceneState.current._introFired = true;
+        onIntroComplete?.();
+      }
+
+      if (elapsed >= INTRO_DURATION) {
+        camera.position.x = THREE.MathUtils.lerp(camera.position.x, pointer.x * 3.2, 0.028);
+        camera.position.z = THREE.MathUtils.lerp(camera.position.z, 60 + pointer.y * 2.2, 0.02);
+        camera.lookAt(pointer.x * 2.3, 6.4, 0);
+      }
 
       routeRecords.forEach((route, index) => {
         route.pulse.scale.setScalar(1 + Math.sin(elapsed * 1.8 + index) * 0.08);
