@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bahri Blueprint Navigator</title>
+    <meta
+      name="description"
+      content="Demo immersiva Bahri: nave protagonista, rotte, capability hubs e opportunità emergenti dal mare in stile executive premium."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="scene-frame" aria-label="Bahri Blueprint Navigator">
+        <div class="ambient ambient-left"></div>
+        <div class="ambient ambient-right"></div>
+
+        <div class="scene-hud">
+          <div class="hud-brand">
+            <span class="brand-kicker">Bahri</span>
+            <span class="brand-title">Blueprint Navigator</span>
+          </div>
+          <div class="hud-status" id="hud-status">Route 01 · Red Sea Corridor</div>
+        </div>
+
+        <div class="scene-copy">
+          <div class="scene-copy-title" id="scene-title">Rotte, capability e opportunità che emergono dal mare</div>
+          <div class="scene-copy-subtitle" id="scene-subtitle">La nave è la protagonista: tutto il resto è narrativa di business disegnata con una gerarchia pulita ed executive.</div>
+        </div>
+
+        <div class="scene-stage">
+          <svg id="scene" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg>
+        </div>
+
+        <div class="scene-footer">
+          <div class="footer-pill" id="footer-pill">Click sulla scena per cambiare rotta</div>
+          <div class="footer-chip">Immersive · premium · Bahri</div>
+        </div>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>

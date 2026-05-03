@@ -1,0 +1,311 @@
+:root {
+  --bg: #05070c;
+  --ink: #f1f0ec;
+  --muted: rgba(241, 240, 236, 0.68);
+  --muted-2: rgba(241, 240, 236, 0.44);
+  --line: rgba(255, 255, 255, 0.08);
+  --warm: #f08a49;
+  --warm-2: #f4b06d;
+  --rose: #cf6d8b;
+  --violet: #665a96;
+  --sea: #07131f;
+  --navy: #09111d;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; min-height: 100%; }
+body {
+  font-family: "Montserrat", Arial, sans-serif;
+  background:
+    radial-gradient(circle at 22% 18%, rgba(255, 151, 93, 0.04), transparent 22%),
+    radial-gradient(circle at 80% 12%, rgba(195, 107, 146, 0.05), transparent 24%),
+    linear-gradient(180deg, #030406 0%, #04060a 100%);
+  color: var(--ink);
+  overflow: hidden;
+}
+
+.app-shell {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.scene-frame {
+  position: relative;
+  width: min(1440px, 100%);
+  height: min(900px, 100%);
+  border-radius: 34px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 72% 18%, rgba(255, 166, 92, 0.06), transparent 18%),
+    radial-gradient(circle at 18% 16%, rgba(201, 108, 150, 0.05), transparent 20%),
+    linear-gradient(180deg, rgba(7, 10, 14, 0.74), rgba(2, 4, 7, 0.95)),
+    linear-gradient(180deg, #0c1118, #04060a 72%);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow:
+    0 32px 90px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.scene-frame::before,
+.scene-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.scene-frame::before {
+  background:
+    radial-gradient(circle at 72% 18%, rgba(255, 208, 147, 0.08), transparent 24%),
+    radial-gradient(circle at 50% 56%, rgba(255, 255, 255, 0.018), transparent 42%),
+    radial-gradient(circle at 50% 76%, rgba(9, 17, 29, 0.02), transparent 56%);
+  mix-blend-mode: screen;
+}
+
+.scene-frame::after {
+  background:
+    linear-gradient(180deg, rgba(4, 6, 10, 0.05), rgba(4, 6, 10, 0.02) 26%, rgba(4, 6, 10, 0.16) 72%, rgba(4, 6, 10, 0.34)),
+    radial-gradient(circle at center, transparent 54%, rgba(2, 3, 6, 0.48));
+}
+
+.ambient {
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(18px);
+  pointer-events: none;
+}
+
+.ambient-left {
+  left: -4%;
+  top: 16%;
+  width: 32%;
+  height: 38%;
+  background: radial-gradient(circle, rgba(240, 138, 73, 0.11), transparent 70%);
+}
+
+.ambient-right {
+  right: -8%;
+  bottom: 8%;
+  width: 28%;
+  height: 30%;
+  background: radial-gradient(circle, rgba(102, 90, 150, 0.1), transparent 70%);
+}
+
+.scene-hud {
+  position: absolute;
+  top: 20px;
+  left: 24px;
+  right: 24px;
+  z-index: 3;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  pointer-events: none;
+}
+
+.hud-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.brand-kicker {
+  color: var(--warm-2);
+  font-size: 0.76rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.brand-title {
+  font-size: clamp(1.35rem, 2.4vw, 2rem);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #f2f0eb;
+}
+
+.hud-status {
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(7, 11, 16, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--muted);
+  font-size: 0.84rem;
+  letter-spacing: 0.02em;
+  backdrop-filter: blur(12px);
+}
+
+.scene-copy {
+  position: absolute;
+  left: 24px;
+  bottom: 24px;
+  z-index: 3;
+  width: min(660px, calc(100% - 48px));
+  padding: 16px 18px;
+  border-radius: 22px;
+  background: linear-gradient(180deg, rgba(6, 9, 13, 0.18), rgba(6, 9, 13, 0.44));
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(10px);
+}
+
+.scene-copy-title {
+  font-size: clamp(1.05rem, 2vw, 1.55rem);
+  line-height: 1.08;
+  font-weight: 700;
+  color: #f2f0eb;
+  margin-bottom: 6px;
+}
+
+.scene-copy-subtitle {
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.5;
+  max-width: 58ch;
+}
+
+.scene-stage {
+  position: absolute;
+  inset: 0;
+}
+
+#scene {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.scene-footer {
+  position: absolute;
+  right: 24px;
+  bottom: 24px;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.footer-pill,
+.footer-chip {
+  border-radius: 999px;
+  padding: 10px 14px;
+  font-size: 0.82rem;
+  letter-spacing: 0.01em;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+}
+
+.footer-pill {
+  background: rgba(8, 12, 18, 0.26);
+  color: #e6e2dc;
+}
+
+.footer-chip {
+  background: rgba(8, 12, 18, 0.14);
+  color: var(--muted-2);
+}
+
+.ship-body { fill: url(#hullGrad); }
+.ship-highlight { fill: url(#deckGrad); }
+.ship-window-dark { fill: rgba(18, 23, 30, 0.72); }
+.ship-shadow { fill: rgba(0, 0, 0, 0.38); }
+.wave-line,
+.route-line,
+.current-line,
+.beam-line {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.route-label {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  fill: rgba(248, 241, 232, 0.92);
+}
+
+.route-label-muted {
+  fill: rgba(248, 241, 232, 0.38);
+  font-weight: 600;
+}
+
+.buoy-index {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  fill: rgba(255, 255, 255, 0.78);
+}
+
+.panel-kicker {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  fill: rgba(255, 214, 166, 0.88);
+}
+
+.panel-title {
+  font-size: 14px;
+  font-weight: 700;
+  fill: rgba(250, 244, 236, 0.96);
+}
+
+.panel-metric {
+  font-size: 11px;
+  font-weight: 700;
+  fill: rgba(219, 198, 153, 0.86);
+}
+
+.panel-detail {
+  font-size: 10px;
+  font-weight: 500;
+  fill: rgba(247, 240, 230, 0.68);
+}
+
+.cap-label {
+  font-size: 13px;
+  font-weight: 600;
+  fill: rgba(247, 240, 230, 0.86);
+}
+
+.cap-muted {
+  fill: rgba(247, 240, 230, 0.35);
+}
+
+.badge-pill {
+  fill: rgba(7, 10, 14, 0.36);
+  stroke: rgba(255, 255, 255, 0.05);
+  stroke-width: 1;
+}
+
+.route-group-active .route-line { opacity: 1; }
+.buoy-group { opacity: 0.66; }
+.buoy-group-active { opacity: 1; }
+
+@media (max-width: 900px) {
+  body { overflow: auto; }
+  .app-shell { padding: 0; }
+  .scene-frame {
+    width: 100vw;
+    height: 100vh;
+    border-radius: 0;
+  }
+  .scene-copy {
+    left: 14px;
+    right: 14px;
+    bottom: 14px;
+    width: auto;
+  }
+  .scene-footer {
+    right: 14px;
+    bottom: 124px;
+  }
+  .hud-status { display: none; }
+}
