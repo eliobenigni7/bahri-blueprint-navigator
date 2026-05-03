@@ -4,3 +4,4 @@ node_modules/
 reference_thumb.jpg
 .DS_Store
 *.log
+.vercel

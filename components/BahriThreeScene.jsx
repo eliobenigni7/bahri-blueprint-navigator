@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
+import { createSprayParticles, createStarfield, addShipDetails } from './BahriParticles';
 
 function parsePercent(value) {
   return Number.parseFloat(String(value).replace('%', '')) || 0;
@@ -395,7 +396,7 @@ function FallbackScene({ domains, selectedId }) {
   );
 }
 
-export default function BahriThreeScene({ domains, selectedId, onSelect }) {
+export default function BahriThreeScene({ domains, selectedId, onSelect, onHoverNode }) {
   const hostRef = useRef(null);
   const onSelectRef = useRef(onSelect);
   const selectedRef = useRef(selectedId);
@@ -604,6 +605,15 @@ export default function BahriThreeScene({ domains, selectedId, onSelect }) {
     shipRecord.ship.scale.setScalar(1.28);
     shipRecord.ship.rotation.y = -0.14;
 
+    // Ship detail enhancements
+    addShipDetails(shipRecord.ship);
+
+    // Ocean spray particles
+    const spray = createSprayParticles(scene);
+
+    // Starfield background
+    const starfield = createStarfield(scene);
+
     const nodeRecords = domains.map((domain) => buildNode(scene, domain));
     const routeRecords = nodeRecords.map((node, index) => buildRoute(scene, node, index));
 
@@ -650,6 +660,25 @@ export default function BahriThreeScene({ domains, selectedId, onSelect }) {
       raycaster.setFromCamera(pointer, camera);
       const intersects = raycaster.intersectObjects(nodeMeshes, false);
       renderer.domElement.style.cursor = intersects.length ? 'pointer' : 'default';
+      if (intersects.length) {
+        const hit = intersects[0].object;
+        const matched = nodeRecords.find((entry) => entry.core === hit || entry.core.children.includes(hit));
+        if (matched) {
+          const domain = domains.find(d => d.id === matched.group.userData.id);
+          if (domain) {
+            onHoverNode?.({
+              id: domain.id,
+              label: domain.label,
+              status: domain.status,
+              detail: domain.detail,
+              screenX: event.clientX,
+              screenY: event.clientY,
+            });
+          }
+        }
+      } else {
+        onHoverNode?.(null);
+      }
     };
 
     const onClick = (event) => {
@@ -705,6 +734,18 @@ export default function BahriThreeScene({ domains, selectedId, onSelect }) {
       shipRecord.ship.rotation.z = Math.sin(elapsed * 0.26) * 0.015;
       shipRecord.ship.rotation.y = Math.sin(elapsed * 0.18) * 0.028;
       shipRecord.wake.material.opacity = 0.12 + Math.sin(elapsed * 1.25) * 0.03;
+
+      // Animate spray particles
+      spray.update(elapsed, shipRecord.ship.position.y);
+
+      // Animate starfield
+      starfield.update(elapsed);
+
+      // Radar light pulse
+      const radar = shipRecord.ship.getObjectByName('radar');
+      if (radar) {
+        radar.material.emissiveIntensity = 0.5 + Math.sin(elapsed * 4) * 0.4;
+      }
       if (sceneState.current?.haloRing) {
         sceneState.current.haloRing.rotation.z = elapsed * 0.08;
         sceneState.current.haloRing.material.opacity = 0.34 + Math.sin(elapsed * 1.7) * 0.08;

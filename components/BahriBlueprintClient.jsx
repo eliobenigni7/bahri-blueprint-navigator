@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import BahriThreeScene from './BahriThreeScene';
+import RadialGauge from './RadialGauge';
 
 const steps = [
   { id: 'bcm', label: 'BCM Hologram', cue: 'Vista macro della mappa di capability.' },
@@ -154,6 +155,7 @@ function statusTone(status) {
 export default function BahriBlueprintClient() {
   const [selectedId, setSelectedId] = useState('oil');
   const [stepIndex, setStepIndex] = useState(0);
+  const [hoverNode, setHoverNode] = useState(null);
 
   const selected = useMemo(() => domains.find((item) => item.id === selectedId) ?? domains[0], [selectedId]);
   const currentStep = steps[stepIndex];
@@ -191,7 +193,7 @@ export default function BahriBlueprintClient() {
           <div className="hero-subtitle">{currentStep.cue}</div>
         </div>
 
-        <BahriThreeScene domains={domains} selectedId={selectedId} onSelect={setSelectedId} />
+        <BahriThreeScene domains={domains} selectedId={selectedId} onSelect={setSelectedId} onHoverNode={setHoverNode} />
 
         <section className="panel left-panel">
           <div className="panel-kicker">{selected.label}</div>
@@ -201,9 +203,9 @@ export default function BahriBlueprintClient() {
           </div>
 
           <div className="metric-grid">
-            <div className="metric-card">
+            <div className="metric-card gauge-card">
               <span>Maturity Score</span>
-              <strong>{selected.maturity}/100</strong>
+              <RadialGauge value={selected.maturity} color={selected.routeColor} label="" />
             </div>
             <div className="metric-card">
               <span>Strategic Priority</span>
@@ -273,6 +275,17 @@ export default function BahriBlueprintClient() {
         </footer>
 
         <div className="bottom-right-pill">Click a node to inspect the blueprint</div>
+
+        {/* 3D Hover Tooltip */}
+        {hoverNode && (
+          <div
+            className="tooltip-3d"
+            style={{ left: hoverNode.screenX, top: hoverNode.screenY }}
+          >
+            <div className="tooltip-kicker">{hoverNode.label}</div>
+            <div>{hoverNode.detail}</div>
+          </div>
+        )}
       </div>
     </div>
   );

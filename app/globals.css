@@ -566,6 +566,58 @@ button {
   backdrop-filter: blur(10px);
 }
 
+/* ── Radial gauge ── */
+.radial-gauge-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.radial-gauge {
+  display: block;
+}
+.radial-gauge-label {
+  color: rgba(244, 239, 231, 0.45);
+  font-size: 0.63rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+}
+.gauge-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.gauge-card span {
+  margin-bottom: 10px;
+}
+
+/* ── Hover tooltip ── */
+.tooltip-3d {
+  position: absolute;
+  z-index: 10;
+  pointer-events: none;
+  padding: 10px 14px;
+  border-radius: 14px;
+  background: rgba(8, 18, 28, 0.88);
+  border: 1px solid rgba(99, 226, 255, 0.25);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 0 24px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(99, 226, 255, 0.06);
+  color: #fff;
+  font-size: 0.76rem;
+  font-weight: 700;
+  white-space: nowrap;
+  transform: translate(-50%, -120%);
+  transition: opacity 0.15s ease;
+}
+.tooltip-3d .tooltip-kicker {
+  color: rgba(99, 226, 255, 0.82);
+  font-size: 0.63rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  margin-bottom: 3px;
+}
+
 @media (max-width: 1200px) {
   .stepper {
     max-width: 66%;
